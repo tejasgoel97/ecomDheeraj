@@ -16,7 +16,15 @@ const FlexView = (props) =>{
         case 'c':
             myStyle={...myStyle, justifyContent: 'center'}
             break;
-    
+        case 'sa':
+            myStyle={...myStyle, justifyContent: 'space-around'}
+            break;  
+        case 'sb':
+            myStyle={...myStyle, justifyContent: 'space-between'}
+            break;  
+        case 'se':
+            myStyle={...myStyle, justifyContent: 'space-evenly'}
+            break; 
         default:
             break;
     }
