@@ -53,11 +53,26 @@ const CartReducer = (state=initialState, action) =>{
                 return {total, CartList: list}
         }
         case REMOVE_FROM_CART:
-            break;
+            let {id, productName, price, imgUrl} = action.payload.item
+            console.log({id, productName, price, imgUrl})
+            let list = {...state.CartList};
+            let {total} = {...state};
+            total = total-1;
+            if(!list[id]?.quantity){
+                return state
+            }
+            if(list[id].quantity <=1){
+                delete list[id]
+            }else{
+                let quantity = list[id].quantity -1;
+                let newCartItem = {id, productName, price, imgUrl, quantity}
+                list[id] = newCartItem;
+            }
+            return {total, CartList:list}
+            
         default:
             return state
     }
-    return state
 }
 
 

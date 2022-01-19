@@ -10,6 +10,7 @@ import CartScreen from '../screens/CartScreen';
 import SearchScreen from '../screens/SearchScreen';
 import { TabActiveColor } from '../static/AppColors';
 import ProductScreen from '../screens/ProductScreen';
+import AddressFormScreen from '../screens/AddressFormScreen';
 const MainTabNav = () =>{
     const Tab = createBottomTabNavigator();
     return(

@@ -10,7 +10,7 @@ import React from 'react';
 import {AddToCartColor, priceTextColor} from '../static/AppColors';
 import {useDispatch, useSelector} from 'react-redux';
 import {Button} from 'react-native-paper';
-import { AddToCartAction } from '../reduxStore/actions/CartActions';
+import { AddToCartAction, RemoveFromCartAction } from '../reduxStore/actions/CartActions';
 import FlexView from '../bootstrap/FlexView';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
@@ -24,6 +24,9 @@ const CardFullWidth = ({item}) => {
   function IncreaseCarthandler() {
     dispatch(AddToCartAction({item}));
   }
+  function DecreaseCartHandler() {
+    dispatch(RemoveFromCartAction({item}));
+  }
   let ButtonComp = (
     <Button
       mode="contained"
@@ -33,13 +36,12 @@ const CardFullWidth = ({item}) => {
     </Button>
   );
   if (CartItems[id]) {
-    console.log('hai ');
     ButtonComp = (
       <FlexView row justify="sa" alignItems="c" style={{borderRadius: 10, borderWidth:1, borderColor:'green'}}>
         <Button
           mode="text"
           color={AddToCartColor}
-          onPress={() => IncreaseCarthandler()}>
+          onPress={() => DecreaseCartHandler()}>
           <FontAwesome5Icon name="minus" size={20}></FontAwesome5Icon>
         </Button>
         <Text style={{color: 'red'}}>{CartItems[id].quantity}</Text>
@@ -70,8 +72,7 @@ const CardFullWidth = ({item}) => {
           
         </View>
       </Pressable>
-      <View style={{width: 150, position:""}}>
-
+      <View style={{width: 150}}>
           {ButtonComp}
           </View>
     </View>

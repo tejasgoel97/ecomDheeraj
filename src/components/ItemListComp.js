@@ -8,12 +8,12 @@ const ItemListComp = ({navigation}) =>{
         <View style={styles.mainContainer}>
             <FlatList
                 data={DUMMY_PRODUCTS}
-                horizontal={false}
+                horizontal={true}
                 sections={DUMMY_PRODUCTS}
                 keyExtractor={item=> item.id}
                 renderItem={({item,index})=>{
                     // return <ProductCard item={item} navigation={navigation}/>
-                    return <CardFullWidth item={item} />
+                    return <ProductCard item={item} />
                 }}
             />
             {/* <SectionList
