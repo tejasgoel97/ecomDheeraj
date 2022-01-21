@@ -3,17 +3,20 @@ import React from 'react'
 import { DUMMY_PRODUCTS } from '../test/DUMMYDATA'
 import ProductCard from './ProductCard'
 import CardFullWidth from './CardFullWidth'
+import { useSelector } from 'react-redux'
 const ItemListComp = ({navigation}) =>{
+
+    const products = useSelector(state=> state.ProductReducer.products);
+
     return(
         <View style={styles.mainContainer}>
             <FlatList
-                data={DUMMY_PRODUCTS}
+                data={products}
                 horizontal={true}
-                sections={DUMMY_PRODUCTS}
                 keyExtractor={item=> item.id}
                 renderItem={({item,index})=>{
                     // return <ProductCard item={item} navigation={navigation}/>
-                    return <ProductCard item={item} />
+                    return <ProductCard item={item} navigation={navigation} />
                 }}
             />
             {/* <SectionList

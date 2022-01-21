@@ -13,7 +13,7 @@ const ProductCard = ({item, navigation}) =>{
     let {id } = item
     const CartItems= useSelector(state=> state.CartReducer.CartList);
     
-    console.log(CartItems)
+    // console.log(CartItems)
     const dispatch = useDispatch()
     // let CartItemsArray = []
     // for(let ItemIndex in CartItems){
@@ -21,14 +21,12 @@ const ProductCard = ({item, navigation}) =>{
     //     CartItemsArray.push(CartItems[ItemIndex]);
     // }
     const{width,height} = useWindowDimensions()
-    console.log(height,width);
     let imageHeight = (width/1.8)-30
     function IncreaseCarthandler(){
         dispatch(AddToCartAction({item}))
     }
     let ButtonComp = <Button mode="contained" color={AddToCartColor} onPress={()=> IncreaseCarthandler()}>Add To Cart</Button>
     if(CartItems[id]){
-        console.log("hai ", )
         ButtonComp = (
             <FlexView row justify="sb" alignItems="c">
                 <Button mode="text" color={AddToCartColor} onPress={()=> IncreaseCarthandler()}>
@@ -42,16 +40,16 @@ const ProductCard = ({item, navigation}) =>{
     }
     return(
         <View style={[styles.mainContainer, {width:imageHeight, height: imageHeight+120}]}>
-            <Pressable onPress={()=> navigation.navigate("ProductScreen")}>
+            <Pressable onPress={()=> navigation.navigate("ProductScreen",{productId:item.id})}>
                 <View style={styles.imageContainer}>
                     <Image 
-                    source={{uri:item.imgUrl[0]}}
+                    source={{uri:item.featureImage}}
                     style={{height: imageHeight, width: imageHeight}}
                     height={imageHeight}
                     width={imageHeight}/>
                 </View>
                 <View style={styles.detailContainer}>
-                    <Text style={styles.priceText}> ₹ {item.price}</Text>
+                    <Text style={styles.priceText}> ₹ {item.SP}</Text>
                     <Text style={styles.text}>{item.productName}</Text>
                     {/* <Button mode="contained" color={AddToCartColor} onPress={()=> IncreaseCarthandler()}>Add To Cart</Button> */}
                     {ButtonComp}

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "272429665249",
+    "project_id": "testdheeraj",
+    "storage_bucket": "testdheeraj.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:272429665249:android:4a4e2d01f70832dd7aa0a0",
+        "android_client_info": {
+          "package_name": "com.delievery"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "272429665249-v61pk6ola2su6fmf4tt94jm5so4fnt90.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA97qMPUddnUd8v-7LtTtVEgvdX_i6SuCE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "272429665249-v61pk6ola2su6fmf4tt94jm5so4fnt90.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

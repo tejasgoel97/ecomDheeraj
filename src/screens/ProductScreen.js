@@ -5,8 +5,10 @@ import { priceTextColor, TabActiveColor, textColor, themeColor } from '../static
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import Entypo from "react-native-vector-icons/Entypo"
 import FlexView from '../bootstrap/FlexView'
-const ProductScreen = ({productId, navigation}) =>{
+import { useSelector } from 'react-redux'
+const ProductScreen = ({navigation, route}) =>{
     const [ActiveImageIndex, setActiveImageIndex] = useState(0)
+    const {productId} = route.params;  
     const DUMMY= {
         id:"1",
         productName:"Rose (Any Color) - Plant",
@@ -22,6 +24,14 @@ const ProductScreen = ({productId, navigation}) =>{
             "Succulent plants are hard to kill and inpart beaut to your garden"
         ]
     }
+
+    const product = useSelector(state=> {
+        let AllProducts = state.ProductReducer.products
+        const foundProduct=AllProducts.find(p=> p.id===productId);
+        foundProduct.imgUrl = [foundProduct.featureImage, ...DUMMY.imgUrl]
+        return foundProduct
+    });
+    console.log(product)
     const {width, height} = useWindowDimensions();
     return(
         <View style={styles.mainContainer}>
@@ -31,8 +41,8 @@ const ProductScreen = ({productId, navigation}) =>{
             </View>
             <ScrollView style={{padding: 10}}>
             <View style={{backgroundColor:"white"}}>
-            <Image source={{uri:DUMMY.imgUrl[ActiveImageIndex]}} height={width} width={width} style={{height:width, width:width}}/>
-                <FlatList data={DUMMY.imgUrl} horizontal renderItem={({item, index})=>{
+            <Image source={{uri:product.imgUrl[ActiveImageIndex]}} height={width} width={width} style={{height:width, width:width}}/>
+                <FlatList data={product.imgUrl} horizontal renderItem={({item, index})=>{
                     let borderStyle ={}
                         if(index===ActiveImageIndex){
                             borderStyle={borderColor: themeColor,borderWidth:3}
@@ -46,8 +56,8 @@ const ProductScreen = ({productId, navigation}) =>{
 
             </View>
             <View style={styles.productNameContainer}>
-                <Text style={styles.productName}>{DUMMY.productName}</Text>
-                <Text style={styles.price}>MRP ₹ {DUMMY.price}</Text>
+                <Text style={styles.productName}>{product.productName}</Text>
+                <Text style={styles.price}>MRP ₹ {product.SP}</Text>
 
             </View>
             <View style={styles.delieveryContainer}>
@@ -62,7 +72,7 @@ const ProductScreen = ({productId, navigation}) =>{
                     <MaterialCommunityIcons name="clipboard-list" size={20} color={textColor}/>
                     <Text style={{color: textColor, fontSize:20}}>Description</Text>
                 </FlexView>
-                {DUMMY.Description.map(item=> {
+                {product.productDescription.map(item=> {
                 return <FlexView key={item} alignItems="s" row>
                     <Entypo name="dot-single" size={20} color={textColor}/>
                     <Text style={styles.descriptionText} key={item}>{item}</Text>

@@ -17,13 +17,10 @@ const initialState = {
         }
     ]
 }
-
-
 const UserReducer = (state=initialState, action) =>{
     switch (action.type) {
         case "OK":            
             break;
-          
     }
     return state
 }

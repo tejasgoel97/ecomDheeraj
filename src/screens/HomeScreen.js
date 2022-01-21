@@ -1,11 +1,25 @@
-import { StyleSheet, Text, View ,ScrollView} from 'react-native'
-import React from 'react' 
+import { StyleSheet, Text, View ,ScrollView} from 'react-native';
+import React, {useEffect} from 'react' 
+import { useSelector } from 'react-redux'
+import firestore from "@react-native-firebase/firestore"
+
+// Conponents Import
 import CategoryComp from '../components/CategoryComp'
 import ItemListComp from '../components/ItemListComp'
+
+//Paper Import 
 import { Button } from 'react-native-paper'
-import { useSelector } from 'react-redux'
+
+
 const HomeScreen = ({navigation}) =>{
    const state= useSelector(state=> state)
+
+    useEffect(()=>{
+        console.log("In HomePage")
+        const categoryCollection = firestore().collection('category')
+        categoryCollection.get().then(data=> console.log(data.get))
+    }, [])
+
     return(
         <View style={styles.mainContainer}>
             <Button onPress={()=> console.log(state.CartReducer.CartList)}>Clivk me</Button>
