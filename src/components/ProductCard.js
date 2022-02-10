@@ -38,6 +38,7 @@ const ProductCard = ({item, navigation}) =>{
                 </Button>
             </FlexView>)
     }
+    const discount = Math.floor((1-item.SP/item.MRP)*100)
     return(
         <View style={[styles.mainContainer, {width:imageHeight, height: imageHeight+120}]}>
             <Pressable onPress={()=> navigation.navigate("ProductScreen",{productId:item.id})}>
@@ -49,7 +50,11 @@ const ProductCard = ({item, navigation}) =>{
                     width={imageHeight}/>
                 </View>
                 <View style={styles.detailContainer}>
-                    <Text style={styles.priceText}> ₹ {item.SP}</Text>
+                    <View style={styles.priceContainer}>
+                        <Text style={styles.SPText}>₹{item.SP}</Text>
+                        <Text style={styles.MRPText}>₹{item.MRP}</Text>
+                        <Text style={styles.discount}>{discount}% OFF</Text>
+                    </View>
                     <Text style={styles.text}>{item.productName}</Text>
                     {/* <Button mode="contained" color={AddToCartColor} onPress={()=> IncreaseCarthandler()}>Add To Cart</Button> */}
                     {ButtonComp}
@@ -78,10 +83,32 @@ const styles = StyleSheet.create({
     text:{
         color: "rgb(77, 77, 77)",
     },
-    priceText:{
+    MRPText:{
+        color:priceTextColor,
+        fontSize: 12,
+        fontWeight:"500",
+        marginRight: 5,
+        textDecorationLine: 'line-through',
+    },
+    SPText:{
         color:priceTextColor,
         fontSize: 15,
-        fontWeight:"700"
+        fontWeight:"700" ,
+        marginRight: 5
+    },
+    discount:{
+        color:"white",
+        fontSize: 12,
+        fontWeight:"500",
+        backgroundColor: "green",
+        paddingHorizontal: 4,
+        borderRadius: 5
+    },
+    priceContainer:{
+        flexDirection:'row',
+        alignItems:"center",
+        alignItems:"center"
+
     }
 })
 export default ProductCard;

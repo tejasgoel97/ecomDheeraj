@@ -32,7 +32,7 @@ const CategoryComp = () =>{
     useEffect(()=>{
         dispatch(setCategories())  
     }, [])
-    console.log("proooo",products)
+    // console.log("proooo",products)
     return(
         <View style={styles.mainContainer}>
             <FlatList

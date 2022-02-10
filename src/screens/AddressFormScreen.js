@@ -43,11 +43,10 @@ function AddressFormScreen() {
                 </FlexView>
             </View>
             <CustomInput style={{flex: 1, marginRight: 0}} label="Nick Name for this address" text={nickName} setText={setNickName}/>
-            <Button mode='contained'>
+            <Button mode='contained' color="green">
                 Add Address
             </Button>
             </>
-
         </TouchableWithoutFeedback> 
       </KeyboardAvoidingView>
     </ScrollView>

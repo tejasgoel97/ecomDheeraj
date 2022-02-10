@@ -1,13 +1,27 @@
-import { Image, StyleSheet, Text, View, useWindowDimensions, ScrollView , FlatList, Pressable} from 'react-native'
+// BASIC REACT IMPORTS
 import React, { useState } from 'react' 
+import { Image, StyleSheet, Text, View, useWindowDimensions, ScrollView , FlatList, Pressable} from 'react-native'
 import { Button } from 'react-native-paper'
+
+// STATIC COLORS IMPORTS
 import { priceTextColor, TabActiveColor, textColor, themeColor } from '../static/AppColors'
+
+// REDUX IMPORTS
+import { useSelector, useDispatch } from 'react-redux'
+import { addToWishList } from '../reduxStore/actions/WhishListActions'
+
+// ICONS IMPORT
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import Entypo from "react-native-vector-icons/Entypo"
+
+// FLEXVIEW COMP IMPORT
 import FlexView from '../bootstrap/FlexView'
-import { useSelector } from 'react-redux'
+
+
+// MAIN COMPONENT GOES HERE
 const ProductScreen = ({navigation, route}) =>{
     const [ActiveImageIndex, setActiveImageIndex] = useState(0)
+    const dispatch = useDispatch();
     const {productId} = route.params;  
     const DUMMY= {
         id:"1",
@@ -36,7 +50,7 @@ const ProductScreen = ({navigation, route}) =>{
     return(
         <View style={styles.mainContainer}>
             <View style={styles.buttonContainer}>
-                <Button mode="contained" style={{width: "50%", borderRadius:0}}>Save For Later</Button>
+                <Button mode="contained" style={{width: "50%", borderRadius:0}} onPress={()=>dispatch(addToWishList(productId))}>Save For Later</Button>
                 <Button mode="contained" style={{width: "50%", borderRadius:0}} color='red'>Add to Cart</Button>
             </View>
             <ScrollView style={{padding: 10}}>
@@ -80,7 +94,6 @@ const ProductScreen = ({navigation, route}) =>{
                 })}
             </View>
             </ScrollView>
-
         </View>
     )
 } 
