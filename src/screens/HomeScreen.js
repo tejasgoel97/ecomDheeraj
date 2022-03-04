@@ -9,6 +9,7 @@ import ItemListComp from '../components/ItemListComp'
 
 //Paper Import 
 import { Button } from 'react-native-paper'
+import PinCodeBar from '../components/General/PinCodeBar';
 
 
 const HomeScreen = ({navigation}) =>{
@@ -22,6 +23,7 @@ const HomeScreen = ({navigation}) =>{
 
     return(
         <View style={styles.mainContainer}>
+            <PinCodeBar />
             <Button onPress={()=> console.log(state.CartReducer.CartList)}>Clivk me</Button>
             <ScrollView>
                 <CategoryComp/>
