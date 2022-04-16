@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { TextInput, Button as PaperButton, HelperText } from 'react-native-paper';
 
 import TextPara from "../../bootstrap/TextPara"
-import AppColors, { themeColor } from "../../static/AppColors"
+import AppColors, { textColor, themeColor } from "../../static/AppColors"
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
 
 const AuthWithPhone = () =>{
@@ -45,17 +45,6 @@ const AuthWithPhone = () =>{
             <Button onPress={handleLogout} title="Logout"/>
         </View>
     }
-    // return <View style={styles.mainContainer}>
-    //     <Text>Hi there</Text>
-    //     <TextInput value={phoneNumber} style={styles.input} onChangeText={(text)=> setPhoneNumber(text)}/>
-    //     {confirm ?  
-    //     <><TextInput value={code} onChangeText={text => setCode(text)} style={styles.input}/>
-    //     <Button title='Enter OTP' onPress={()=> confirmCode() }/>
-    //     </>
-    //     : 
-    //     <Button title='Send OTP' onPress={()=> signInWithPhoneNumber() }/>
-    //     }   
-    // </View>
     const hasErrorsInMobile = () => {
         return !phoneNumber.length >10
       };
@@ -67,6 +56,7 @@ const AuthWithPhone = () =>{
             label={"Enter Phone Number"}
             underlineColor={themeColor}
             activeUnderlineColor={themeColor}
+            theme={{ colors: { text: textColor, placeholder:"grey"} }}
             right={<TextInput.Icon name="phone" color={themeColor}/>}
         />
         <HelperText type="error" visible={hasErrorsInMobile()}>
@@ -82,6 +72,7 @@ const AuthWithPhone = () =>{
             label={"OTP"}
             underlineColor={themeColor}
             activeUnderlineColor={themeColor}
+            theme={{ colors: { text: textColor, placeholder:"grey"} }}
             right={<TextInput.Icon name="text" color={themeColor}/>}
         />
         <Button title='Enter OTP' onPress={()=> confirmCode()} color={themeColor}/>

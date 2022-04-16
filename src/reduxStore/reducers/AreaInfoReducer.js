@@ -10,7 +10,6 @@ const AreaInfoReducer = (state=initialState, action) =>{
         case CHANGE_AREA_PINCODE:
             return {...state, PINCODE: action.payload.PinCode}
     }
-
     return state
 }
 

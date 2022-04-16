@@ -4,9 +4,10 @@ import { Button, HelperText } from 'react-native-paper'
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import FlexView from '../../bootstrap/FlexView'
 import TextPara from '../../bootstrap/TextPara'
+import { updatePinCode } from '../../reduxStore/actions/AreaInfoAction'
 import { textColor, textColorDark, themeColor } from '../../static/AppColors'
 
 const PinCodeBar = () =>{
@@ -26,7 +27,7 @@ const PinCodeBar = () =>{
           setShowEditPinCode(!showEditPinCode);
         }}
       >
-        <InsideModal PinCode={PinCode} />
+        <InsidePinCodeModal PinCode={PinCode} setShowEditPinCode={setShowEditPinCode} />
       </Modal>
         <TextPara color="white">
             Delievering to {PinCode}
@@ -38,9 +39,9 @@ const PinCodeBar = () =>{
     </View>)
 }
 
-const InsideModal = ({PinCode}) =>{
+const InsidePinCodeModal = ({PinCode, setShowEditPinCode}) =>{
   const [pinText , setPinText] =  useState(PinCode+"")
-  
+  const dispatch = useDispatch();
   function handleTextChange(value){
     setPinText(value)
   }
@@ -49,7 +50,10 @@ const InsideModal = ({PinCode}) =>{
       return (!pinText || pinText.length !=6)
     }
   function handlePinCodeSubmit(){
+    if(hasPinErrors()) return null
     console.log(pinText, typeof pinText)
+      dispatch(updatePinCode({PinCode: pinText}))
+      setShowEditPinCode(false)
   }
   return(
   <View style={styles.centeredView}>
@@ -60,8 +64,8 @@ const InsideModal = ({PinCode}) =>{
         Please enter 6 Digit PIN Code!
       </HelperText>
       <FlexView row>
-          <Button disabled={hasPinErrors()} color={themeColor} onPress={()=>handlePinCodeSubmit()}>Submit</Button>
-          <Button color={textColorDark}>Cancel</Button> 
+          <Button  color={themeColor}  onPress={()=>handlePinCodeSubmit()}>Submit</Button>
+          <Button color={textColorDark} onPress={()=> setShowEditPinCode(false)}>Cancel</Button> 
       </FlexView>         
     </View>
   </View>
@@ -105,7 +109,8 @@ const styles =StyleSheet.create({
         margin: 12,
         borderWidth: 1,
         padding: 10,
-        width: "90%"
+        width: "90%",
+        color: "black"
       },
 })
 

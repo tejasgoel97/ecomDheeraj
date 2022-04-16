@@ -24,7 +24,7 @@ const CategoryShowComp = ({item}) =>{
                 />
             </View> */}
             <View style={{flex: 1, backgroundColor: "#519259", justifyContent:'center', alignItems:'center'}}>
-                <Text>{item.catName}</Text>
+                <Text style={{fontSize: 16}}>{item.catName}</Text>
             </View> 
         </FlexView>
         <FlatList data={item.subCat} 
@@ -32,7 +32,7 @@ const CategoryShowComp = ({item}) =>{
             renderItem={({item, index})=>{
             const subCat = item;
                 return (
-                <View style={{flex:1, padding: 10, alignItems:'center', backgroundColor:"yellow"}} >
+                <View style={{flex:1, padding: 10, alignItems:'center',}} >
                     <Pressable style={{borderRadius: 5, overflow:"hidden", backgroundColor:"red"}} onPress={()=> navigation.navigate("SubCatList",{id: subCat.id})}>
                         <Image style={{width: 100, height:100}} 
                             source={{uri:subCat.img.url}}

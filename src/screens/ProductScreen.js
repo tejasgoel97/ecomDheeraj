@@ -24,6 +24,7 @@ import LoadingComp from "../bootstrap/LoadingComp"
 import TextPara from '../bootstrap/TextPara'
 import StarRating from '../components/StarRating'
 import { AddToCartAction } from '../reduxStore/actions/CartActions'
+import ErrorComp from '../bootstrap/ErrorComp'
 
 
 
