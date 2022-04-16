@@ -8,14 +8,17 @@ const BannerComp = ({data}) =>{
     const { width } = useWindowDimensions();
     const height = width/4
     return <View style={styles.mainContainer}>
-        <Image source={{uri: data.imgUrl}} style={{width: width, height: height, backgroundColor:"green"}} />
+        <Image source={{uri: data.imgUrl}} style={{width: width-20, height: height, backgroundColor:"green"}} />
     </View>
 }
 
 const styles = StyleSheet.create({
     mainContainer:{
         justifyContent:'center',
-        alignItems:"center"
+        alignItems:"center",
+        margin:5,
+        borderRadius: 10,
+        overflow:'hidden'
     }
 });
 

@@ -15,6 +15,7 @@ import useHomeHook from '../hooks/useHomeHook';
 import LoadingComp from '../bootstrap/LoadingComp';
 import ErrorComp from '../bootstrap/ErrorComp';
 import HomeContent from '../components/HomeScreen/HomeContent';
+import { themeColorDull } from '../static/AppColors';
 
 
 const HomeScreen = ({navigation}) =>{
@@ -32,11 +33,7 @@ const HomeScreen = ({navigation}) =>{
         return(
             <View style={styles.mainContainer}>
                 <PinCodeBar />
-                <Button onPress={()=> console.log(state.CartReducer.CartList)}>Clivk me</Button>
-                {/* <ScrollView> */}
-                {/* <ItemListComp navigation={navigation}/> */}
                 <HomeContent />
-                {/* </ScrollView> */}
             </View>
             )
         } 
@@ -47,6 +44,7 @@ const HomeScreen = ({navigation}) =>{
 const styles = StyleSheet.create({
     mainContainer:{
         flex:1,
+        backgroundColor:themeColorDull,
     }
 })
 export default HomeScreen;

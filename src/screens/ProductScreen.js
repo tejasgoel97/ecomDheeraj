@@ -23,7 +23,7 @@ import FlexView from '../bootstrap/FlexView'
 import LoadingComp from "../bootstrap/LoadingComp"
 import TextPara from '../bootstrap/TextPara'
 import StarRating from '../components/StarRating'
-import { AddToCartAction } from '../reduxStore/actions/CartActions'
+import { AddToCartAction, RemoveFromCartAction } from '../reduxStore/actions/CartActions'
 import ErrorComp from '../bootstrap/ErrorComp'
 
 
@@ -47,11 +47,17 @@ const ProductScreen = ({navigation, route}) =>{
         console.log(error)
         return <ErrorComp onTryAgain={fetchProduct}/>
     }
-    // return <View><Text>Hi therre</Text></View>
+
+    // HANDLE CART INCREASE
     function IncreaseCarthandler() {
         dispatch(AddToCartAction({item:product}));
       }
-      console.log('quantity',quantity)
+    // HANDLE CART DECREASE
+      function DecreaseCartHandler() {
+        dispatch(RemoveFromCartAction({item:product}));
+      }
+
+    console.log('quantity',quantity)
     const AddToCartButton = (product.available ?
         quantity ?
         <FlexView row justify="sb" alignItems="c" style={{width: "100%"}}>
@@ -62,7 +68,7 @@ const ProductScreen = ({navigation, route}) =>{
             color='white'
             style={{backgroundColor:"green",borderRadius: 5, width: "30%"}}
             size={25}
-            onPress={() => console.log('Pressed')}
+            onPress={() => DecreaseCartHandler()}
         />
         <TextPara size={23}>{quantity}</TextPara>
         <IconButton
@@ -70,7 +76,7 @@ const ProductScreen = ({navigation, route}) =>{
             color="white"
             style={{backgroundColor:"green",borderRadius: 5, width: "30%"}}
             size={25}
-            onPress={() => console.log('Pressed')}
+            onPress={() => IncreaseCarthandler()}
         />
         </FlexView>
         :
