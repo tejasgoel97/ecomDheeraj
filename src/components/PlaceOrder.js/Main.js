@@ -7,15 +7,19 @@ import useCouponandDealer from '../../hooks/useCouponAndDealer';
 
 import Ionicions from "react-native-vector-icons/Ionicons"
 import { themeColor } from '../../static/AppColors';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import usePlaceDealerOrder from '../../hooks/usePlaceDealerOrder';
 import usePlaceOrder from '../../hooks/usePlaceOrder';
+import { removeCouponCode, removeDealerCode } from '../../reduxStore/actions/PreOrderActions';
 
 const MainPlaceOrder = () =>{
     const {couponCode, setCouponCode, couponValid,setCouponValid, couponLoading, couponError, dealerCode, setDealerCode,dealerInfo, dealerValid,setDealerValid, dealerError, dealerLoading, handleDealerSubmit,handleCouponSumbit} = useCouponandDealer();
     const {addDealerOrder} = usePlaceDealerOrder();
     const {makeOrder, loading} = usePlaceOrder()
     const preOrderReducerState = useSelector(state=> state.PreOrderReducer);
+
+    const dispatch = useDispatch()
+
     const {amountBeforeCoupon} = preOrderReducerState
     let discountAbs = 0;
     if(dealerValid)discountAbs = amountBeforeCoupon;
@@ -25,11 +29,19 @@ const MainPlaceOrder = () =>{
         console.log("inside Place ORder")
         makeOrder(couponValid, couponCode)
     }
+    function changeDealerCode(){
+        setDealerValid(false)
+        dispatch(removeDealerCode())
+    }
+    function changeCouponCode(){
+        setCouponValid(false)
+        dispatch(removeCouponCode())
+    }
 
     const OrderButtonComp = dealerValid ?
         <Button mode="contained" color={themeColor} style={styles.orderButton} onPress={()=> addDealerOrder(dealerInfo)}>Place DealerOrder</Button>
         :
-        <Button mode="contained" color={"red"} style={styles.orderButton} onPress={()=> handlePlaceOrder()} disabled={loading}>{loading?"Loading...":"Place Order"}</Button>
+        <Button mode="contained" color={"red"} style={styles.orderButton} onPress={()=> handlePlaceOrder()}>{loading?"Loading...":"Place Order"}</Button>
     return (
     <View style={styles.mainContainer}>
         <View style={styles.discountContainer}>
@@ -48,7 +60,7 @@ const MainPlaceOrder = () =>{
             />
             {
                 couponValid ?
-                <Button color="green" onPress={()=>setCouponValid(false)}  disabled={dealerLoading}>change</Button>
+                <Button color="green" onPress={changeCouponCode}  disabled={dealerLoading}>change</Button>
                 : 
                 <Button color="green" onPress={handleCouponSumbit } loading={couponLoading} >Apply</Button>
 
@@ -72,7 +84,7 @@ const MainPlaceOrder = () =>{
             />
             {
                 dealerValid ?
-                <Button color="green" onPress={()=>setDealerValid(false)} loading={dealerLoading} disabled={dealerLoading}>change</Button>
+                <Button color="green" onPress={changeDealerCode} loading={dealerLoading} disabled={dealerLoading}>change</Button>
                 : 
                 <Button color="green" onPress={handleDealerSubmit } loading={dealerLoading} >Apply</Button>
 

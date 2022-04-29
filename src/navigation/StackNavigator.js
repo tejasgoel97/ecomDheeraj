@@ -16,8 +16,8 @@ const StackNavigator = () =>{
     
     return(
         <Stack.Navigator>
-            <Stack.Screen name="PlaceOrderScreen" component ={PlaceOrderScreen} />
             <Stack.Screen name="Tabnav" component={MainTabNav} options={{ headerShown: false }} />
+            <Stack.Screen name="PlaceOrderScreen" component ={PlaceOrderScreen} />
             <Stack.Screen name="Login" component={LoginScreen}  options={{ headerShown: true }} />
             <Stack.Screen name="ProductScreen" component ={ProductScreen} options={({ route }) => ({ title: route.params.title })}/>
             <Stack.Screen name="SelectAddressScreen" component ={SelectAddressScreen} />

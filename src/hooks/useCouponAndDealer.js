@@ -1,7 +1,7 @@
 import { useState } from "react";
 import firestore from "@react-native-firebase/firestore"
 import { useDispatch } from "react-redux";
-import { AddDealerCode } from "../reduxStore/actions/PreOrderActions";
+import { AddCouponCode, AddDealerCode } from "../reduxStore/actions/PreOrderActions";
 
 
 
@@ -84,6 +84,7 @@ const useCouponandDealer = () =>{
             if(coupon){
                 setCouponValid(true)
                 setCouponInfo(coupon)
+                dispatch(AddCouponCode(couponCode, coupon.discountPercent))
                 setCouponError(null)
                 setDealerValid(false)
             }

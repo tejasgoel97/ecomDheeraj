@@ -1,9 +1,13 @@
 import React, { useState } from 'react'
 import RazorpayCheckout from 'react-native-razorpay'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import {Alert} from 'react-native'
 import auth from '@react-native-firebase/auth'
 import firestore from "@react-native-firebase/firestore"
+import { paymentInitiated } from '../reduxStore/actions/PreOrderActions'
+import { useNavigation } from "@react-navigation/native";
+
+import { PAYMENT_COMPLETED, PAYMENT_INITIATED } from '../reduxStore/store/ACTION_DEFINATION'
 
 
 
@@ -14,13 +18,15 @@ const usePlaceOrder = () =>{
     const userInfo = useSelector((state)=> state.UserReducer.userInfo)
     const currentOrderState = useSelector(state=> state.PreOrderReducer)
     let phoneNumber = userInfo.phoneNumber
-    let amountBeforeCoupon = preOrderReducerState.amountBeforeCoupon
+    let userId = userInfo.uid
+    let amountBeforeCoupon = preOrderReducerState.amountBeforeCoupon;
+    const dispatch = useDispatch();
     // console.log(preOrderReducerState.amountBeforeCoupon)
     // console.log(userInfo.phoneNumber)
-
+    const navigation = useNavigation()
     const makeOrder = async (couponValid, couponCode) => {
       console.log(couponValid, couponCode)
-      const finalOrder = {
+      let finalOrder = {
         couponCode: couponValid ? couponCode: null,
         couponValid: true,
         deliveryAddress: currentOrderState.deliveryAddress,
@@ -43,7 +49,7 @@ const usePlaceOrder = () =>{
       setError("")
       setLoading(true)
       try{
-        const data = await fetch("http://192.168.1.6:3000/createOrder", {
+        const data = await fetch("http://192.168.1.2:3000/createOrder", {
          method:"POST",
          headers: {
           'Content-Type': 'application/json'
@@ -72,6 +78,7 @@ const usePlaceOrder = () =>{
         },
         theme: {color: '#53a20e'}
       }
+      dispatch({type: PAYMENT_INITIATED})
       RazorpayCheckout.open(options).then((data) => {
         // handle success
         alert(`Success: ${data.razorpay_payment_id}`);
@@ -82,12 +89,20 @@ const usePlaceOrder = () =>{
         .update({
           paymentId: data.razorpay_payment_id,
           status: "COMPLETED"
+        }).then(()=>{
+          finalOrder = {...finalOrder,paymentId: data.razorpay_payment_id, orderId: order.id }
+          firestore().collection("orders-customer").doc(order.id).set(finalOrder)
         })
-        .then(() => {
-          console.log('User updated!');
-          setLoading(false)
-          setError(false)
-        });
+        .then((docRef) => {
+            setLoading(false)
+            setError(null)
+            console.log('User updated!');
+            dispatch({type: PAYMENT_COMPLETED})
+            setLoading(false)
+            setError(false)
+            navigation.navigate("Tabnav", {screen: "Home"})
+        })
+        
 
       }).catch((error) => {
         // handle failure
@@ -118,6 +133,8 @@ const usePlaceOrder = () =>{
           { text: "OK", onPress: () => console.log("OK Pressed") }
         ])
         console.log(err)
+        setLoading(false)
+        setError(true)
       }
     
       
