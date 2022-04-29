@@ -8,6 +8,7 @@ const usePlaceDealerOrder = () =>{
     const [loadingD_Order, setLoadingD_Order] = useState(false);
     const [errorD_Order, setErrorD_Order] = useState(null)
     const currentOrderState = useSelector(state=> state.PreOrderReducer)
+    const userInfo = useSelector(state=> state.UserReducer?.userInfo?._user)
 
     const navigation = useNavigation();
 
@@ -25,9 +26,17 @@ const usePlaceDealerOrder = () =>{
             items: currentOrderState.cartList,
             orderValue: 0,
             dealerName: dealerInfo.dealerName,
+            createdAt: new Date(),
+            createdBy: {phoneNumber: userInfo.phoneNumber, uid:userInfo.uid},
+            status: "Created",
+            changesHistory: [{
+                status: "created",
+                time: new Date(),
+                changedBy: {phoneNumber: userInfo.phoneNumber, uid:userInfo.uid},
+            }]
         }
         console.log("DINFO",finalOrder)
-        firestore().collection("orders-Dealer").add(finalOrder)
+        firestore().collection("orders-dealer").add(finalOrder)
         .then((docRef) => {
             console.log("Document written with ID: ", docRef.id);
             setLoadingD_Order(false)
@@ -38,8 +47,6 @@ const usePlaceDealerOrder = () =>{
             console.error("Error adding document: ", error);
             setLoadingD_Order(false)
             setErrorD_Order("Can't Create Order")
-            
-            
         });
             console.log("ADTER ORDER")
         }

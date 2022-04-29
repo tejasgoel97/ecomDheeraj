@@ -1,6 +1,6 @@
 //Colors for the BottomTabNavigator
 export const themeColor= "#519259"
-export const themeColorDull = "#518f59"
+export const themeColorDull = "#9bc7a0"
 
 export const textColor =  "rgb(77, 77, 77)"
 export const textColorDark = "#232b2b"

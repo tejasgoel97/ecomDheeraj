@@ -1,5 +1,7 @@
 import { useState } from "react";
 import firestore from "@react-native-firebase/firestore"
+import { useDispatch } from "react-redux";
+import { AddDealerCode } from "../reduxStore/actions/PreOrderActions";
 
 
 
@@ -17,6 +19,7 @@ const useCouponandDealer = () =>{
     const [dealerError, setDealerError] = useState("");
     const [dealerLoading, setDealerLoading] = useState("");
 
+    const dispatch = useDispatch()
     function handleDealerSubmit(){
             console.log("InHandleDealer")
             setDealerLoading(true);
@@ -38,6 +41,7 @@ const useCouponandDealer = () =>{
                 if(dealer){
                     setDealerValid(true)
                     setDealerInfo(dealer)
+                    dispatch(AddDealerCode(dealerCodeUpperCase))
                     setDealerError(null) 
                     setCouponValid(false) 
                 }

@@ -62,11 +62,13 @@ if(CartList?.length ==0){
 }
 console.log("CartList", CartList)
 let TotalAmount = 0;
+let TotalQuantity = 0;
 CartList.forEach((i, index)=>{
     let {quantity, SP} = i;
     if(quantity && SP) {
         let itemAmount = SP*quantity;
         TotalAmount = TotalAmount + +itemAmount
+        TotalQuantity = TotalQuantity + +quantity
     }
 })
 console.log("TotalAmount", TotalAmount)
@@ -82,21 +84,22 @@ console.log("PRE PRDER",preOrderReducerState)
     return(
         <View style={styles.mainContainer}>
             <View style={styles.total}>
+                <FlexView justify='sb' row style={styles.totalQuantity}>
+                    <TextPara size={13}>Total Quantity</TextPara>
+                    <TextPara>{TotalQuantity}</TextPara>
+                </FlexView>
                 <FlexView style={styles.totalPriceContainer} justify="sb" row>
-                    <TextPara>C art Total</TextPara>
-                    <TextPara>{"totalPrice"}</TextPara>
+                    <TextPara>Cart Total (in Rupees)</TextPara>
+                    <TextPara>₹{TotalAmount}</TextPara>
                 </FlexView>
-                <FlexView justify='sb' row style={styles.discountPriceContainer}>
-                    <TextPara>Discount</TextPara>
-                    <TextPara>300</TextPara>
-                </FlexView>
+                
             </View>
             <View style={styles.placeOrderContainer}>
                 <Button mode='contained' color={themeColor} onPress={handlePlaceOrder}>Place Order</Button>
             </View>
             <FlatList 
                 data={CartList}
-                renderItem={({item})=><CardFullWidth item={item}/>}
+                renderItem={({item})=><CardFullWidth hideRating item={item}/>}
             />
         </View>
     )
@@ -122,6 +125,11 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent:"center",
         alignItems:"center"
+    },
+    totalQuantity:{
+        fontSize: 12,
+        fontWeight: '800'
+
     }
 })
 export default CartScreen;

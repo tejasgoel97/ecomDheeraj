@@ -16,15 +16,14 @@ const StackNavigator = () =>{
     
     return(
         <Stack.Navigator>
+            <Stack.Screen name="PlaceOrderScreen" component ={PlaceOrderScreen} />
             <Stack.Screen name="Tabnav" component={MainTabNav} options={{ headerShown: false }} />
             <Stack.Screen name="Login" component={LoginScreen}  options={{ headerShown: true }} />
-            <Stack.Screen name="ProductScreen" component ={ProductScreen} />
-            <Stack.Screen name="PlaceOrderScreen" component ={PlaceOrderScreen} />
+            <Stack.Screen name="ProductScreen" component ={ProductScreen} options={({ route }) => ({ title: route.params.title })}/>
             <Stack.Screen name="SelectAddressScreen" component ={SelectAddressScreen} />
             <Stack.Screen name="AddressFormScreen" component ={AddressFormScreen} />
-            <Stack.Screen name="SubCatList" component={SubCatListScreen}/>
-            <Stack.Screen name="CategoryList" component={CategoryListScreen}/>
-            
+            <Stack.Screen name="SubCatList" component={SubCatListScreen} options={({ route }) => ({ title: route.params.title })}/>
+            <Stack.Screen name="CategoryList" component={CategoryListScreen} options={({ route }) => ({ title: route.params.title })}/>
         </Stack.Navigator>
     )
 } 

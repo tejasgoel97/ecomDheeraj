@@ -12,10 +12,14 @@ const SubCategoryScreen = ({ navigation, route}) =>{
     const subCatId = route?.params.id;
     console.log(subCatId)
     const {itemsLoading, error, fetchItems, items} = useSubCatItems(subCatId);
-
+    React.useLayoutEffect(() => {
+        navigation.setOptions({
+          title: subCatId,
+        });
+      }, [navigation]);
     if(error !== null){
         console.log(error)
-        return <ErrorComp onTryAgain={fetchCaregories}/>
+        return <ErrorComp onTryAgain={fetchItems}/>
     }
     // LOADING CONDITION
     if(itemsLoading){

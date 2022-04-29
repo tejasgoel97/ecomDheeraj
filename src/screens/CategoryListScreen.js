@@ -12,15 +12,21 @@ const CategoryList = ({ navigation, route}) =>{
     const catId = route?.params.id;
     console.log(catId)
     const {itemsLoading, error, fetchItems, items} = useCatItems(catId);
-
+    
+    React.useLayoutEffect(() => {
+        navigation.setOptions({
+          title: catId,
+        });
+      }, [navigation]);
     if(error !== null){
         console.log(error)
-        return <ErrorComp onTryAgain={fetchCaregories}/>
+        return <ErrorComp onTryAgain={fetchItems}/>
     }
     // LOADING CONDITION
     if(itemsLoading){
         return <LoadingComp />
     }
+
 
     return (
         <View style={styles.mainContainer}>

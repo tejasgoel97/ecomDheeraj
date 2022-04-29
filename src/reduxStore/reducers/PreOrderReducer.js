@@ -1,4 +1,4 @@
-import { ADD_ADDRESS_PRE, ADD_ITEMS } from "../store/ACTION_DEFINATION";
+import { ADD_ADDRESS_PRE, ADD_COUPON_CODE, ADD_DEALER_CODE, ADD_ITEMS, REMOVE_COUPON_CODE, REMOVE_DEALER_CODE } from "../store/ACTION_DEFINATION";
 
 const OrderStates={
     NOT_STARTED:"NOT_STARTED",
@@ -14,7 +14,7 @@ const intialState = {
     amountBeforeCoupon: 0,
     amountAfterCoupon: 0,
     isCouponApplied: false,
-    couponCodeApplied: "",
+    couponCode: "",
     isDealer: false,
     dealerCode: "",
     cartList: [],
@@ -41,7 +41,15 @@ const PreOrderReducer = (state=intialState, action) =>{
             }
             break;
         case ADD_ADDRESS_PRE:
-            return {...state, deliveryAddress: action.payload, state, currentStatus:OrderStates.ON_ORDER_CONFIRM_PAGE};
+            return {...state, deliveryAddress: action.payload, currentStatus:OrderStates.ON_ORDER_CONFIRM_PAGE};
+        case ADD_DEALER_CODE:
+            return {...state, isDealer: true , dealerCode: action.payload, isCouponApplied: false, couponCode: ""}
+        case ADD_COUPON_CODE:
+            return {...state, isDealer: false , dealerCode: "", isCouponApplied: true, couponCode: action.payload}
+        case REMOVE_COUPON_CODE:
+            return {...state, isDealer: false , dealerCode: "", isCouponApplied: false, couponCode: ""}
+        case REMOVE_DEALER_CODE:
+            return {...state, isDealer: false , dealerCode: "", isCouponApplied: false, couponCode: ""}
         default:
             break;
     }

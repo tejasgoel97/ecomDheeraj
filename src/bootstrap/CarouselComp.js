@@ -1,6 +1,8 @@
+import { useNavigation } from '@react-navigation/native'
 import React, {useEffect, useRef, useState} from 'react'
 import { StyleSheet, Text, View, FlatList, Image, useWindowDimensions, Button } from 'react-native'
 import { ActivityIndicator } from 'react-native-paper'
+import Pressable from 'react-native/Libraries/Components/Pressable/Pressable'
 
 
 const DUMMY = [{
@@ -55,10 +57,22 @@ const CarouselComp = ({data}) =>{
 
 const ImageComp = ({item}) =>{
     const { width } = useWindowDimensions();
-    const height = width/4
-    return <View>
+    const height = width/3
+    const navigation = useNavigation();
+
+    function handleNavigation(){
+        console.log(item)
+        if(item.navScreen=== "subCategory"){
+            console.log("item")
+            return navigation.navigate("SubCatList",{id:item.navValue})
+        }
+        if(item.navScreen=== "category")
+            return navigation.navigate("CategoryList",{id:item.navValue})
+
+    }
+    return <Pressable onPress={()=> handleNavigation()}>
         <Image source={{uri: item.imgUrl}} style={{width: width, height: height, backgroundColor:"green"}} />
-    </View>
+    </Pressable>
 }
 
 const styles = StyleSheet.create({

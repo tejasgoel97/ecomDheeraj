@@ -7,7 +7,7 @@ import {
   View,
 } from 'react-native';
 import React from 'react';
-import {AddToCartColor, priceTextColor} from '../static/AppColors';
+import {AddToCartColor, priceTextColor, TabInActiveColor, themeColor} from '../static/AppColors';
 import {useDispatch, useSelector} from 'react-redux';
 import {Button} from 'react-native-paper';
 import { AddToCartAction, RemoveFromCartAction } from '../reduxStore/actions/CartActions';
@@ -15,15 +15,17 @@ import FlexView from '../bootstrap/FlexView';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import StarRating from './StarRating';
 import { useNavigation } from '@react-navigation/native';
+import TextPara from '../bootstrap/TextPara';
 
-const CardFullWidth = ({item}) => {
+const CardFullWidth = ({item, hideRating}) => {
+  const pinCode = useSelector((state)=> state.AreaInfoReducer.PINCODE);
   const navigation = useNavigation()
   let {id} = item;
   const CartList = useSelector(state => state.CartReducer.CartList);
 
   const {width, height} = useWindowDimensions();
   const dispatch = useDispatch();
-  let imageHeight = width / 3 - 30;
+  let imageHeight = width / 3 - 20;
   function IncreaseCarthandler() {
     dispatch(AddToCartAction({item}));
   }
@@ -34,33 +36,47 @@ const CardFullWidth = ({item}) => {
   let quantity = itemInCart?.quantity
 
   const discount = item?.MRP && Math.floor((1-item.SP/item.MRP)*100)
-
+  let available = false
+  if(item.deliveryCodes ==[]){
+      available = true
+  }
+  else if(item.deliveryCodes?.includes(pinCode)){
+      available = true
+  }
 
   let ButtonComp = (
-    <Button
-      mode="text"
-      color={AddToCartColor}
-      onPress={() => IncreaseCarthandler()}>
-      Add
-    </Button>
+    <View style={styles.cartbtnContainer}>
+      <Pressable style={styles.addButton} onPress={IncreaseCarthandler}>
+        <TextPara color="white" >
+          Add
+        </TextPara>
+      </Pressable>
+    </View>
   );
+  if(!available){
+    ButtonComp =(
+      <View style={styles.cartbtnContainer}>
+      <Pressable style={[styles.addButton, {backgroundColor:"white"}]} disabled>
+        <TextPara color={TabInActiveColor} >
+          Out of Stock
+        </TextPara>
+      </Pressable>
+    </View>
+    )
+  }
   if (quantity) {
     ButtonComp = (
-      <FlexView row justify="se" alignItems="c" style={{borderRadius: 10, backgroundColor:'green'}}>
-        <Button
-          mode="text"
-          color={AddToCartColor}
-          onPress={() => DecreaseCartHandler()}>
-          <FontAwesome5Icon name="minus" size={12} color="white"/>
-        </Button>
-        <Text style={{color: 'white', fontSize: 24}}>{quantity}</Text>
-        <Button
-          mode="text"
-          color={AddToCartColor}
-          onPress={() => IncreaseCarthandler()}>
-          <FontAwesome5Icon name="plus" size={12} color="white"/>
-        </Button>
-      </FlexView>
+      <View style={styles.cartbtnContainer}>
+        <Pressable style={styles.plusMinusContianer} onPress={DecreaseCartHandler}>
+          <FontAwesome5Icon name="minus" size={12} color="white"/>  
+        </Pressable>
+        <View>
+          <TextPara style={{fontSize:15}}>{quantity}</TextPara>
+        </View>
+        <Pressable style={styles.plusMinusContianer} onPress={IncreaseCarthandler}>
+          <FontAwesome5Icon name="plus" size={12} color="white"/>  
+        </Pressable>
+      </View>
     );
   }
   console.log("item", item)
@@ -86,7 +102,7 @@ const CardFullWidth = ({item}) => {
               }
           </View>
           <Text style={styles.text} numberOfLines={2}>{item.productName}</Text>
-          <StarRating rating={item.rating || 0}/>
+          {hideRating ||  <StarRating rating={item.rating || 0}/>}
           <View style={{width: 100, alignSelf:'flex-end'}}>
           {ButtonComp}
           </View>
@@ -143,6 +159,30 @@ priceContainer:{
     alignItems:"center",
     alignItems:"center"
 
+},
+cartbtnContainer:{
+  width: "100%",
+  justifyContent:"space-between",
+  alignItems:"center",
+  flexDirection:"row",
+},
+addButton:{
+  backgroundColor:themeColor,
+  justifyContent:"center",
+  alignItems:"center",
+  padding:5,
+  borderRadius:5,
+  height:30,
+  width: 100
+},
+plusMinusContianer:{
+  backgroundColor:themeColor,
+  height: 30,
+  padding:5,
+  justifyContent:"center",
+  alignItems:"center",
+  borderRadius:5,
+  width: 30
 }
 
 });

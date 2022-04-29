@@ -9,19 +9,27 @@ import Ionicions from "react-native-vector-icons/Ionicons"
 import { themeColor } from '../../static/AppColors';
 import { useSelector } from 'react-redux';
 import usePlaceDealerOrder from '../../hooks/usePlaceDealerOrder';
+import usePlaceOrder from '../../hooks/usePlaceOrder';
 
 const MainPlaceOrder = () =>{
     const {couponCode, setCouponCode, couponValid,setCouponValid, couponLoading, couponError, dealerCode, setDealerCode,dealerInfo, dealerValid,setDealerValid, dealerError, dealerLoading, handleDealerSubmit,handleCouponSumbit} = useCouponandDealer();
     const {addDealerOrder} = usePlaceDealerOrder();
+    const {makeOrder, loading} = usePlaceOrder()
     const preOrderReducerState = useSelector(state=> state.PreOrderReducer);
     const {amountBeforeCoupon} = preOrderReducerState
     let discountAbs = 0;
     if(dealerValid)discountAbs = amountBeforeCoupon;
     let GrandTotal = amountBeforeCoupon - discountAbs;
+
+    function handlePlaceOrder(){
+        console.log("inside Place ORder")
+        makeOrder(couponValid, couponCode)
+    }
+
     const OrderButtonComp = dealerValid ?
         <Button mode="contained" color={themeColor} style={styles.orderButton} onPress={()=> addDealerOrder(dealerInfo)}>Place DealerOrder</Button>
         :
-        <Button mode="contained" color={themeColor} style={styles.orderButton}>Place Order</Button>
+        <Button mode="contained" color={"red"} style={styles.orderButton} onPress={()=> handlePlaceOrder()} disabled={loading}>{loading?"Loading...":"Place Order"}</Button>
     return (
     <View style={styles.mainContainer}>
         <View style={styles.discountContainer}>

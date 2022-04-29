@@ -35,7 +35,12 @@ const ProductScreen = ({navigation, route}) =>{
     const dispatch = useDispatch();
     const {productId} = route.params;  
     const {productLoading, error, product,fetchProduct}  = useProductById(productId);
-    // CALCULATING QUANTITY
+    // CALCULATING 
+    React.useLayoutEffect(() => {
+        navigation.setOptions({
+          title: product.productName ? product.productName : "Loading...",
+        });
+      }, [navigation,product]);
     const CartList = useSelector(state => state.CartReducer.CartList);
     console.log(CartList)
     let itemInCart = CartList.find(item => item.id === productId )
@@ -135,8 +140,8 @@ const ProductScreen = ({navigation, route}) =>{
                     <MaterialCommunityIcons name="clipboard-list" size={20} color={textColor}/>
                     <Text style={{color: textColor, fontSize:20}}>Description</Text>
                 </FlexView>
-                {product.productDescription.map(item=> {
-                return <FlexView key={item} alignItems="s" row>
+                {product.productDescription.map((item,index)=> {
+                return <FlexView key={index} alignItems="s" row>
                     <Entypo name="dot-single" size={20} color={textColor}/>
                     <Text style={styles.descriptionText} key={item}>{item}</Text>
                 </FlexView>
@@ -145,8 +150,8 @@ const ProductScreen = ({navigation, route}) =>{
             <View style={styles.rrContainer}>
                 <TextPara size={20}>Ratings and Reviews</TextPara>
                 <StarRating rating={product.rating || 0}/>
-                {product.reviews?.map((review)=>{
-                    return <>
+                {product.reviews?.map((review, index)=>{
+                    return <View key={index}>
                     <Divider />
                     <FlexView style={styles.reviewContainer}>
                         <TextPara size={17}>"{review.reviewText}"</TextPara>
@@ -155,7 +160,7 @@ const ProductScreen = ({navigation, route}) =>{
                             <TextPara color="grey" size={12}>   Verified Customer<MaterialCommunityIcons name='check-decagram'/></TextPara>
                         </FlexView>
                     </FlexView>
-                    </>
+                    </View>
                 })}
 
             </View>

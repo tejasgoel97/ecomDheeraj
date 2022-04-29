@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { View, Text, StyleSheet, Pressable, Modal, TextInput } from 'react-native'
+import { View, Text, StyleSheet, Pressable, Modal, TextInput, Alert } from 'react-native'
 import { Button, HelperText } from 'react-native-paper'
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
@@ -13,7 +13,6 @@ import { textColor, textColorDark, themeColor } from '../../static/AppColors'
 const PinCodeBar = () =>{
     const PinCode =  useSelector(state=> state.AreaInfoReducer.PINCODE)
     const [showEditPinCode, setShowEditPinCode] = useState(false)
-    console.log("pinCode", PinCode)
 
 
 
@@ -51,9 +50,25 @@ const InsidePinCodeModal = ({PinCode, setShowEditPinCode}) =>{
     }
   function handlePinCodeSubmit(){
     if(hasPinErrors()) return null
-    console.log(pinText, typeof pinText)
-      dispatch(updatePinCode({PinCode: pinText}))
-      setShowEditPinCode(false)
+    if(PinCode === pinText){
+      // If the user have not entered the pincode
+      return setShowEditPinCode(false)
+    }
+    Alert.alert(
+      "Confirm Pin Code Change",
+      "Some items are not available to the provided PIN Code. Your Cart will become empty",
+      [
+        {
+          text: "Cancel",
+          onPress: () => null,
+          style: "cancel"
+        },
+        { text: "OK", onPress: () => {
+          dispatch(updatePinCode({PinCode: pinText}))
+          setShowEditPinCode(false)
+         } }
+      ]
+    );
   }
   return(
   <View style={styles.centeredView}>

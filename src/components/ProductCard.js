@@ -3,13 +3,16 @@ import React from 'react'
 import { Button } from 'react-native-paper';
 import { AddToCartColor, priceTextColor } from '../static/AppColors';
 import { useSelector, useDispatch } from 'react-redux';
-import { AddToCartAction } from '../reduxStore/actions/CartActions';
+import { AddToCartAction, RemoveFromCartAction } from '../reduxStore/actions/CartActions';
 import FlexView from '../bootstrap/FlexView';
 import FontAwsome5 from "react-native-vector-icons/FontAwesome5"
+import { useNavigation } from '@react-navigation/native';
 
 
 
-const ProductCard = ({item, navigation}) =>{
+const ProductCard = ({item}) =>{
+    const navigation = useNavigation();
+
     let {id } = item
     const CartList= useSelector(state=> state.CartReducer.CartList);
     
@@ -20,14 +23,18 @@ const ProductCard = ({item, navigation}) =>{
     function IncreaseCarthandler(){
         dispatch(AddToCartAction({item}))
     }
+    function DecreaseCartHandler() {
+        dispatch(RemoveFromCartAction({item}));
+      }
+  
     let itemInCart = CartList.find(item => item.id ===id )
-    let quantity = 10
+    let quantity = itemInCart?.quantity
 
     let ButtonComp = <Button mode="contained" color={AddToCartColor} onPress={()=> IncreaseCarthandler()}>Add To Cart</Button>
     if(quantity){
         ButtonComp = (
             <FlexView row justify="sb" alignItems="c">
-                <Button mode="text" color={AddToCartColor} onPress={()=> IncreaseCarthandler()}>
+                <Button mode="text" color={AddToCartColor} onPress={()=> DecreaseCartHandler()}>
                     <FontAwsome5 name="minus" size={20}></FontAwsome5>
                 </Button>
                 <Text style={{color:"red"}}>{quantity}</Text>
@@ -39,7 +46,7 @@ const ProductCard = ({item, navigation}) =>{
     const discount = Math.floor((1-item.SP/item.MRP)*100)
     return(
         <View style={[styles.mainContainer, {width:imageHeight, height: imageHeight+120}]}>
-            <Pressable onPress={()=> navigation.navigate("ProductScreen",{productId:item.id})}>
+            <Pressable onPress={()=>navigation.navigate("ProductScreen",{productId:item.id})}>
                 <View style={styles.imageContainer}>
                     <Image 
                     source={{uri:item.featureImage}}

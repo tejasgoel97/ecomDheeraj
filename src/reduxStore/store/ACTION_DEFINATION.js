@@ -16,6 +16,8 @@ export const CHANGE_AREA_PINCODE = "CHANGE_AREA_PINCODE"
 
 export const LOAD_LATEST_CART = "LOAD_LATEST_CART"
 
+export const CLEAR_CART = "CLEAR_CART"
+
 export const SIGNIN_USER = "SIGNIN_USER"
 
 export const LOGOUT_USER = "LOGOUT_USER"
@@ -28,4 +30,8 @@ export const ADD_DEALER_CODE = "ADD_DEALER_CODE"
 export const ADD_ITEMS = "ADD_ITEMS"
 
 export const ADD_ADDRESS_PRE = "ADD_ADDRESS_PRE"
+
+export const REMOVE_DEALER_CODE = "REMOVE_DEALER_CODE"
+
+export const REMOVE_COUPON_CODE = "ROMOVE_COUPON_CODE"
 

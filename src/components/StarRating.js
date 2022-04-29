@@ -10,7 +10,7 @@ const StarRating = ({rating}) =>{
     if(rating ==0 || !rating ){
         return <FlexView row alignItems="c">
             {arr.map(i=>{
-                return <FontAwesome name="star-o"style={styles["m-1"]} color={themeColor}/>
+                return <FontAwesome key={i} name="star-o"style={styles["m-1"]} color={themeColor}/>
             })}
             <TextPara> (No Ratings Yet)</TextPara>
 
@@ -20,10 +20,10 @@ const StarRating = ({rating}) =>{
     return <FlexView row alignItems="c">
         {arr.map(i=>{
             let gap = rating - i
-            if(gap>1) return <FontAwesome name="star" style={styles["m-1"]} color={themeColor}/>
-            if(gap<0) return <FontAwesome name="star-o"style={styles["m-1"]} color={themeColor}/>
-            if(gap >0.5) return <FontAwesome name="star"style={styles["m-1"]} color={themeColor}/>
-            if(gap==0.5 || gap>0) return <FontAwesome name="star-half-empty"style={styles["m-1"]} color={themeColor}/>
+            if(gap>1) return <FontAwesome  key={i} name="star" style={styles["m-1"]} color={themeColor}/>
+            if(gap<0) return <FontAwesome key={i} name="star-o"style={styles["m-1"]} color={themeColor}/>
+            if(gap >0.5) return <FontAwesome key={i} name="star"style={styles["m-1"]} color={themeColor}/>
+            if(gap==0.5 || gap>0) return <FontAwesome key={i} name="star-half-empty"style={styles["m-1"]} color={themeColor}/>
         })}
         <TextPara> ({rating} out of 5)</TextPara>
     </FlexView>

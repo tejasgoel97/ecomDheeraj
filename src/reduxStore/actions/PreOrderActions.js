@@ -1,4 +1,4 @@
-import { ADD_ADDRESS_PRE, ADD_COUPON_CODE, ADD_DEALER_CODE, ADD_ITEMS } from "../store/ACTION_DEFINATION"
+import { ADD_ADDRESS_PRE, ADD_COUPON_CODE, ADD_DEALER_CODE, ADD_ITEMS, REMOVE_COUPON_CODE, REMOVE_DEALER_CODE } from "../store/ACTION_DEFINATION"
 
 
 export const AddPreOrderItems = (CartList, totalAmount) =>{
@@ -20,4 +20,10 @@ export const AddCouponCode = (couponCode) =>{
 export const AddDealerCode = (dealerCode) =>{
 
     return {type: ADD_DEALER_CODE, payload: dealerCode}
+}
+export const  removeDealerCode = () =>{
+    return {type: REMOVE_DEALER_CODE}
+}
+export const removeCouponCode = () => {
+    return {type: REMOVE_COUPON_CODE}
 }

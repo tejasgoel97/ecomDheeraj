@@ -1,4 +1,4 @@
-import { ADD_TO_CART, LOAD_LATEST_CART, REMOVE_FROM_CART } from "../store/ACTION_DEFINATION";
+import { ADD_TO_CART, CHANGE_AREA_PINCODE, CLEAR_CART, LOAD_LATEST_CART, REMOVE_FROM_CART } from "../store/ACTION_DEFINATION";
 
 // const initialState = {
 //     CartList:[],
@@ -18,12 +18,10 @@ const CartReducer = (state=initialState, action) =>{
             // console.log({id, productName, SP, featureImage})
             var {CartList, total} = {...state};
             var list = [...CartList]
-            console.log(list)
             total = total+1;
             var index = list.findIndex(list=>{
                 if(list.id === id) return true
             });
-            console.log(index, index)
             if(index>-1){
                 let quantity =  list[index].quantity +1
                 list[index] = {id,productName, SP, featureImage, quantity}
@@ -74,12 +72,10 @@ const CartReducer = (state=initialState, action) =>{
             // console.log({id, productName, SP, featureImage})
             var {CartList, total} = {...state};
             var list = [...CartList]
-            console.log(list)
             total = total-1;
             var index = list.findIndex(item=>{
                 if(item.id === id) return true
             });
-            console.log(index, index)
             if(index>-1){
                 let quantity =  list[index].quantity-1
                 if(quantity === 0){
@@ -94,6 +90,8 @@ const CartReducer = (state=initialState, action) =>{
         case LOAD_LATEST_CART:
             console.log(" In teh load");
             console.log(action.payload);
+        case CLEAR_CART:
+            return {CartList:[], total: 0}
             
         default:
             return state

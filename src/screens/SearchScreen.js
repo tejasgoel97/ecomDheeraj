@@ -19,7 +19,7 @@ const SearchScreen = () =>{
             console.log(searchString)
             fetchItems(searchString)
             setFinalString(searchString)
-        }, 2000);
+        }, 500);
         return ()=> clearTimeout(timeOut)
     }, [searchString])
     console.log("items", items)

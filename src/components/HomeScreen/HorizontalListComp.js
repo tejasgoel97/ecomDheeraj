@@ -18,7 +18,7 @@ const HorizontalListComp = ({data}) =>{
         return null
     }
     return <View style={styles.mainContainer}>
-        <TextPara>{data.title}</TextPara>
+        <TextPara style={styles.listHeading} >{data.title}</TextPara>
         <FlatList
             data={items}
             horizontal
@@ -30,7 +30,17 @@ const HorizontalListComp = ({data}) =>{
 const styles = StyleSheet.create({
     mainContainer:{
         justifyContent:'center',
-        alignItems:"center"
+        alignItems:"flex-start",
+        backgroundColor:"white",
+        borderRadius: 10,
+        margin:5
+    },
+    listHeading:{
+        fontSize: 20,
+        fontWeight:'800',
+        marginHorizontal: 10,
+        marginBottom: 0,
+        paddingBottom:0
     }
 });
 
