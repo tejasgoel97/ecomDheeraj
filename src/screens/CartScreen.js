@@ -30,30 +30,30 @@ const CartScreen = ({navigation}) =>{
     const dispatch = useDispatch()
 
 
-    useEffect(()=>{
-        firestore().collection('products').where(firestore.FieldPath.documentId() , "in" , ["IL6ZE074NaUUWBfKXvVX", "1evALvzYsbhufo6JhU3X"]).get()
-        // firestore().collection('products').where("available", "==", true).get();
+    // useEffect(()=>{
+    //     firestore().collection('products').where(firestore.FieldPath.documentId() , "in" , ["IL6ZE074NaUUWBfKXvVX", "1evALvzYsbhufo6JhU3X"]).get()
+    //     // firestore().collection('products').where("available", "==", true).get();
         
-        .then(querySnapshot => {
-            const itemArray = [];
-            console.log('Total users: ', querySnapshot.size);
-            querySnapshot.forEach(documentSnapshot => {
-                let id = documentSnapshot.id;
-                // let item = {id: documentSnapshot.id,...documentSnapshot.data() }
-                let { productName,SP, featureImage, MRP} = documentSnapshot.data();
-            //   console.log('User ID: ', documentSnapshot.id, documentSnapshot.data());              itemArray.push(item)
-               const itemCart = CartList.find(item => item.id ===id )
-                if(itemCart){
-                    const quantity = itemCart.quantity;
-                    let item = {productName,SP, featureImage, MRP, id, quantity};
-                    itemArray.push(item)
+    //     .then(querySnapshot => {
+    //         const itemArray = [];
+    //         console.log('Total users: ', querySnapshot.size);
+    //         querySnapshot.forEach(documentSnapshot => {
+    //             let id = documentSnapshot.id;
+    //             // let item = {id: documentSnapshot.id,...documentSnapshot.data() }
+    //             let { productName,SP, featureImage, MRP} = documentSnapshot.data();
+    //         //   console.log('User ID: ', documentSnapshot.id, documentSnapshot.data());              itemArray.push(item)
+    //            const itemCart = CartList.find(item => item.id ===id )
+    //             if(itemCart){
+    //                 const quantity = itemCart.quantity;
+    //                 let item = {productName,SP, featureImage, MRP, id, quantity};
+    //                 itemArray.push(item)
 
-                }
-            });
-            dispatch(LoadLatestCart(itemArray))
-          });
+    //             }
+    //         });
+    //         dispatch(LoadLatestCart(itemArray))
+    //       });
 
-    }, [])
+    // }, [])
 if(CartList?.length ==0){
     return <View style={styles.emptyCartContianer}>
         <TextPara size={22}>No item in the Cart</TextPara>

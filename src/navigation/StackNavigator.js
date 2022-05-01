@@ -9,6 +9,7 @@ import PlaceOrderScreen from '../screens/PlaceOrderScreen';
 import SubCatListScreen from '../screens/SubCatListScreen';
 import CategoryListScreen from '../screens/CategoryListScreen';
 import LoginScreen from '../screens/LoginScreen';
+import MyOrdersScreen from '../screens/MyOrdersScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -24,6 +25,7 @@ const StackNavigator = () =>{
             <Stack.Screen name="AddressFormScreen" component ={AddressFormScreen} />
             <Stack.Screen name="SubCatList" component={SubCatListScreen} options={({ route }) => ({ title: route.params.title })}/>
             <Stack.Screen name="CategoryList" component={CategoryListScreen} options={({ route }) => ({ title: route.params.title })}/>
+            <Stack.Screen name="MyOrders" component={MyOrdersScreen} options={({ route }) => ({ title: "My Orders" })}/>
         </Stack.Navigator>
     )
 } 

@@ -27,7 +27,7 @@ const useProductById = (productId) =>{
             }, ...productData.images];
             let discount = Math.floor((1-productData.SP/productData.MRP)*100)
             let available = false
-            if(productData.deliveryCodes ==[]){
+            if(productData.deliveryCodes?.length === 0){
                 available = true
             }
             else if(productData.deliveryCodes?.includes(pinCode)){

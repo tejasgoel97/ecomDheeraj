@@ -4,7 +4,7 @@ import { Image, StyleSheet, Text, View, useWindowDimensions, ScrollView , FlatLi
 import { Button, Divider, IconButton, List } from 'react-native-paper'
 
 // STATIC COLORS IMPORTS
-import { priceTextColor, TabActiveColor, textColor, themeColor, themeColorDull } from '../static/AppColors'
+import { priceTextColor, TabActiveColor, TabInActiveColor, textColor, themeColor, themeColorDull } from '../static/AppColors'
 
 // REDUX IMPORTS
 import {useDispatch, useSelector } from 'react-redux'
@@ -87,7 +87,7 @@ const ProductScreen = ({navigation, route}) =>{
         :
         <Button mode="contained" style={{width: "100%", borderRadius:0}} color={themeColor} onPress={IncreaseCarthandler}>Add to Cart</Button>
         : 
-        <Button mode="contained" style={{width: "100%", borderRadius:0}}  disabled>Out Of Stock</Button>
+        <Button mode="contained" style={{width: "100%", borderRadius:0,}} color={TabInActiveColor} onPress={()=> null}>Out Of Stock</Button>
     )
     return(
         <View style={styles.rootContainer}>

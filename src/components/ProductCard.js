@@ -1,12 +1,13 @@
 import { Image, Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native'
 import React from 'react' 
 import { Button } from 'react-native-paper';
-import { AddToCartColor, priceTextColor } from '../static/AppColors';
+import { AddToCartColor, priceTextColor, TabInActiveColor } from '../static/AppColors';
 import { useSelector, useDispatch } from 'react-redux';
 import { AddToCartAction, RemoveFromCartAction } from '../reduxStore/actions/CartActions';
 import FlexView from '../bootstrap/FlexView';
 import FontAwsome5 from "react-native-vector-icons/FontAwesome5"
 import { useNavigation } from '@react-navigation/native';
+import TextPara from '../bootstrap/TextPara';
 
 
 
@@ -15,6 +16,8 @@ const ProductCard = ({item}) =>{
 
     let {id } = item
     const CartList= useSelector(state=> state.CartReducer.CartList);
+    const pinCode = useSelector((state)=> state.AreaInfoReducer.PINCODE);
+
     
     const dispatch = useDispatch()
 
@@ -29,8 +32,26 @@ const ProductCard = ({item}) =>{
   
     let itemInCart = CartList.find(item => item.id ===id )
     let quantity = itemInCart?.quantity
-
+    let available = false
+    if(item.deliveryCodes?.length ===0){
+        available = true
+    }
+    else if(item.deliveryCodes?.includes(pinCode)){
+        available = true
+    }
     let ButtonComp = <Button mode="contained" color={AddToCartColor} onPress={()=> IncreaseCarthandler()}>Add To Cart</Button>
+    if(!available){
+        ButtonComp =(
+          <View style={styles.cartbtnContainer}>
+          <Pressable style={[styles.addButton, {backgroundColor:"white"}]} disabled>
+            <TextPara color={TabInActiveColor} >
+              Out of Stock
+            </TextPara>
+          </Pressable>
+        </View>
+        )
+      }
+    
     if(quantity){
         ButtonComp = (
             <FlexView row justify="sb" alignItems="c">
@@ -71,14 +92,15 @@ const ProductCard = ({item}) =>{
 const styles = StyleSheet.create({
     mainContainer:{
         flex:1,
-        margin: 10,
+        marginBottom: 10,
+        marginHorizontal: 10,
         backgroundColor:"white",
         borderRadius: 10,
         overflow:"hidden",
+        elevation: 10
     },
     imageContainer:{
         width: "100%",
-        
     },
     detailContainer:{
         margin: 5,
@@ -114,6 +136,12 @@ const styles = StyleSheet.create({
         alignItems:"center",
         alignItems:"center"
 
-    }
+    },
+    cartbtnContainer:{
+        width: "100%",
+        justifyContent:"space-between",
+        alignItems:"center",
+        flexDirection:"row",
+      },
 })
 export default ProductCard;

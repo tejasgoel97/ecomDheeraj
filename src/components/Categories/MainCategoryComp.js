@@ -48,7 +48,6 @@ const CategoryShowComp = ({item}) =>{
 
 // Main Component Goes Here
 const MainCategoryComponent = ({categories}) =>{
-    console.log(categories)
     return(
         <View style={styles.mainContainer}>
             <FlatList data={categories} renderItem={({item, index})=> {

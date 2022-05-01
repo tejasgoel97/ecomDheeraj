@@ -37,7 +37,7 @@ const CardFullWidth = ({item, hideRating}) => {
 
   const discount = item?.MRP && Math.floor((1-item.SP/item.MRP)*100)
   let available = false
-  if(item.deliveryCodes ==[]){
+  if(item.deliveryCodes?.length ===0){
       available = true
   }
   else if(item.deliveryCodes?.includes(pinCode)){
@@ -79,7 +79,7 @@ const CardFullWidth = ({item, hideRating}) => {
       </View>
     );
   }
-  console.log("item", item)
+  // console.log("item", item)
   return (
     <View style={styles.mainContainer}>
       <Pressable onPress={()=> navigation.navigate("ProductScreen",{productId:item.id})} style={{flexDirection: 'row'}}>
