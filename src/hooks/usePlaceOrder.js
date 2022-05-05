@@ -7,7 +7,7 @@ import firestore from "@react-native-firebase/firestore"
 import { paymentInitiated } from '../reduxStore/actions/PreOrderActions'
 import { useNavigation } from "@react-navigation/native";
 
-import { PAYMENT_COMPLETED, PAYMENT_INITIATED } from '../reduxStore/store/ACTION_DEFINATION'
+import { CLEAR_CART, PAYMENT_COMPLETED, PAYMENT_INITIATED } from '../reduxStore/store/ACTION_DEFINATION'
 
 
 
@@ -49,7 +49,7 @@ const usePlaceOrder = () =>{
       setError("")
       setLoading(true)
       try{
-        const data = await fetch("http://192.168.1.2:3000/createOrder", {
+        const data = await fetch("http://192.168.116.240:3000/createOrder", {
          method:"POST",
          headers: {
           'Content-Type': 'application/json'
@@ -90,7 +90,7 @@ const usePlaceOrder = () =>{
           paymentId: data.razorpay_payment_id,
           status: "COMPLETED"
         }).then(()=>{
-          finalOrder = {...finalOrder,paymentId: data.razorpay_payment_id, orderId: order.id }
+          finalOrder = {...finalOrder,paymentId: data.razorpay_payment_id, orderId: order.id, customeruid: userId}
           firestore().collection("orders-customer").doc(order.id).set(finalOrder)
         })
         .then((docRef) => {
@@ -98,6 +98,7 @@ const usePlaceOrder = () =>{
             setError(null)
             console.log('User updated!');
             dispatch({type: PAYMENT_COMPLETED})
+            dispatch({type: CLEAR_CART})
             setLoading(false)
             setError(false)
             navigation.navigate("Tabnav", {screen: "Home"})
@@ -119,6 +120,8 @@ const usePlaceOrder = () =>{
         })
         .then(() => {
           console.log('User updated!');
+          setLoading(false)
+            setError(true)
         });
       });
       }catch(err){
